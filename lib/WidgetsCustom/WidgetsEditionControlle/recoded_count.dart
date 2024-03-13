@@ -89,15 +89,16 @@ class _RecoderCountState extends State<RecoderCount>
               borderRadius: const BorderRadius.all(Radius.circular(20)),
             ),
             width: isRecording ? 160.0 : 60.0, // Anima el ancho
-            height: 40.0, // Anima el alto
+            height: 50.0, // Anima el alto
             child: Stack(
+              alignment: Alignment.center,
               children: [
                 AnimatedBuilder(
                   animation: _controller,
                   builder: (context, child) {
                     return Positioned(
                       left: 35,
-                      top: 15,
+                      top: 18,
                       child: Visibility(
                         visible: _controller.value < 0.5,
                         child: Container(
@@ -117,7 +118,10 @@ class _RecoderCountState extends State<RecoderCount>
                 Row(
                   children: [
                     IconButton(
-                      icon: Icon(isRecording ? Icons.stop : Icons.mic),
+                      icon: Icon(
+                        isRecording ? Icons.stop : Icons.mic,
+                        color: Colors.black,
+                      ),
                       onPressed: toggleRecording,
                     ),
                     Visibility(

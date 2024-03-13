@@ -1,3 +1,4 @@
+import 'package:Klasspadel/Page/AddUser/Mock/mock_user.dart';
 import 'package:Klasspadel/Page/Loading/loading_screen.dart';
 import 'package:Klasspadel/WidgetsCustom/user_custom_select.dart';
 import 'package:flutter/material.dart';
@@ -40,6 +41,9 @@ class _FilterContactListScreenState extends State<FilterContactListScreen> {
       child: Scaffold(
         backgroundColor: Colors.black,
         appBar: AppBar(
+          iconTheme: const IconThemeData(
+            color: Colors.white, //change your color here
+          ),
           backgroundColor: const Color.fromRGBO(255, 154, 0, 0.88),
           title: TextField(
             style: const TextStyle(
@@ -83,15 +87,6 @@ class _FilterContactListScreenState extends State<FilterContactListScreen> {
                       onDelete: (bool value) {},
                     ),
                   );
-                  // return ListTile(
-                  //   title: Text(filteredcontact[index]),
-                  //   onTap: () {
-                  //     widget.oncontactSelected("contact");
-
-                  //     Navigator.pop(
-                  //         context, "contact"); // Volver a la pantalla anterior
-                  //   },
-                  // );
                 },
               ),
             ),

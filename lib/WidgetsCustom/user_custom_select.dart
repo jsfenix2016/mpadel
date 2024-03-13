@@ -9,6 +9,7 @@ class UserCustomSelect extends StatefulWidget {
   final String name;
   final bool isFilter;
   final void Function(bool) onDelete;
+
   @override
   State<UserCustomSelect> createState() => _UserCustomSelectState();
 }
@@ -65,14 +66,14 @@ class _UserCustomSelectState extends State<UserCustomSelect> {
                   boxShadow: [
                     BoxShadow(
                       color: Colors.white,
-                      offset: const Offset(
+                      offset: Offset(
                         5.0,
                         5.0,
                       ),
                       blurRadius: 10.0,
                       spreadRadius: 2.0,
                     ), //BoxShadow
-                    const BoxShadow(
+                    BoxShadow(
                       color: Colors.white,
                       offset: Offset(0.0, 0.0),
                       blurRadius: 0.0,
@@ -88,10 +89,10 @@ class _UserCustomSelectState extends State<UserCustomSelect> {
               ),
             ),
             Positioned(
-              top: 40,
-              left: 120,
+              top: 30,
+              right: 0,
               child: Container(
-                width: 230,
+                width: 210,
                 height: 150,
                 decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -151,7 +152,7 @@ class _UserCustomSelectState extends State<UserCustomSelect> {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         Container(

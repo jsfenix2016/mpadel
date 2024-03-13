@@ -1,4 +1,4 @@
-import 'package:Klasspadel/Models/thumbnailbd.dart';
+import 'package:Klasspadel/ModelsBD/thumbnailbd.dart';
 
 import 'package:flutter/material.dart';
 import 'package:notification_center/notification_center.dart';

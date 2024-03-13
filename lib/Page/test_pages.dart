@@ -34,6 +34,7 @@ class _TestPagesState extends State<TestPages> {
   bool selectUser = false;
   List<Image> listThumb = [];
   List<Widget> listThumbW = [];
+  List<PadelStroke> valueStroke = [];
   @override
   void initState() {
     super.initState();
@@ -100,7 +101,7 @@ class _TestPagesState extends State<TestPages> {
                   builder: (BuildContext context) => SingleChildScrollView(
                         child: Container(
                           color: Colors.transparent,
-                          height: 600,
+                          height: 1500,
                           child: Container(
                             decoration: const BoxDecoration(
                               borderRadius:
@@ -141,7 +142,14 @@ class _TestPagesState extends State<TestPages> {
                                   //   ),
                                   // ),
                                   const SizedBox(height: 16),
-                                  SelectPlayerWidget(),
+                                  SelectPlayerWidget(
+                                    onSelectDrive: (List<PadelStroke> value) {
+                                      valueStroke = value;
+                                    },
+                                    onSelectPLayer: (String value) {
+                                      _handPreference = value;
+                                    },
+                                  ),
                                   // DropdownButtonFormField<String>(
                                   //   value: _handPreference,
                                   //   onChanged: (value) => setState(
@@ -181,6 +189,7 @@ class _TestPagesState extends State<TestPages> {
                                         onPressed: () async {
                                           if (selectUser) {
                                             widget.listThumb;
+                                            valueStroke;
                                             _handPreference;
                                           } else {}
                                         },
@@ -337,7 +346,7 @@ class _TestPagesState extends State<TestPages> {
                     backgroundColor: Colors.transparent,
                     context: context,
                     builder: (BuildContext context) => SizedBox(
-                      height: 800,
+                      height: 600,
                       width: 300,
                       child: Padding(
                         padding: const EdgeInsets.all(2.0),
@@ -383,8 +392,10 @@ class _TestPagesState extends State<TestPages> {
 }
 
 class PadelScoreWidget extends StatefulWidget {
-  const PadelScoreWidget({super.key, required this.isSelectPlayer});
+  const PadelScoreWidget(
+      {super.key, required this.isSelectPlayer, required this.onSelectDrive});
   final bool isSelectPlayer;
+  final ValueChanged<List<PadelStroke>> onSelectDrive;
   @override
   State<PadelScoreWidget> createState() => _PadelScoreWidgetState();
 }
@@ -412,6 +423,7 @@ class _PadelScoreWidgetState extends State<PadelScoreWidget> {
         strokes.add(newStroke);
         selectedStroke = "Drive"; // Restablece el golpe seleccionado
         score = 0; // Restablece la puntuación
+        widget.onSelectDrive(strokes);
       });
     }
   }
@@ -420,103 +432,97 @@ class _PadelScoreWidgetState extends State<PadelScoreWidget> {
   Widget build(BuildContext context) {
     return Visibility(
       visible: widget.isSelectPlayer,
-      child: Stack(
+      child: Column(
         children: [
-          Column(
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Text('Golpe: $selectedStroke',
-                      style:
-                          const TextStyle(fontSize: 20, color: Colors.white)),
-                  PopupMenuButton(
-                    initialValue: selectedStroke,
-                    onSelected: (String value) {
-                      setState(() {
-                        selectedStroke = value;
-                      });
-                    },
-                    itemBuilder: (BuildContext context) {
-                      return availableStrokes.map((String stroke) {
-                        return PopupMenuItem(
-                          value: stroke,
-                          child: Text(stroke),
-                        );
-                      }).toList();
-                    },
-                  ),
-                ],
+              Text('Golpe: $selectedStroke',
+                  style: const TextStyle(fontSize: 20, color: Colors.white)),
+              PopupMenuButton(
+                initialValue: selectedStroke,
+                onSelected: (String value) {
+                  setState(() {
+                    selectedStroke = value;
+                  });
+                },
+                itemBuilder: (BuildContext context) {
+                  return availableStrokes.map((String stroke) {
+                    return PopupMenuItem(
+                      value: stroke,
+                      child: Text(stroke),
+                    );
+                  }).toList();
+                },
               ),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(20)),
-                  color: Colors.black.withAlpha(30),
+            ],
+          ),
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.all(Radius.circular(20)),
+              color: Colors.black.withAlpha(30),
+            ),
+            width: 195,
+            height: 40,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.only(left: 8.0),
+                  child: Text(
+                    'Nivel:',
+                    style: TextStyle(fontSize: 16, color: Colors.white),
+                  ),
                 ),
-                width: 175,
-                height: 40,
-                child: Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Padding(
-                      padding: EdgeInsets.only(left: 8.0),
-                      child: Text(
-                        'Nivel:',
-                        style: TextStyle(fontSize: 16, color: Colors.white),
-                      ),
+                    IconButton(
+                      icon: const Icon(Icons.remove, color: Colors.white),
+                      onPressed: () {
+                        if (score > 0) {
+                          setState(() {
+                            score -= 0.5;
+                          });
+                        }
+                      },
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                          icon: const Icon(Icons.remove, color: Colors.white),
-                          onPressed: () {
-                            if (score > 0) {
-                              setState(() {
-                                score -= 0.5;
-                              });
-                            }
-                          },
-                        ),
-                        Text(
-                          '$score',
-                          style: const TextStyle(
-                              fontSize: 20, color: Colors.white),
-                        ),
-                        IconButton(
-                          icon: const Icon(Icons.add, color: Colors.white),
-                          onPressed: () {
-                            if (score < 7) {
-                              setState(() {
-                                score += 0.5;
-                              });
-                            }
-                          },
-                        ),
-                      ],
+                    Text(
+                      '$score',
+                      style: const TextStyle(fontSize: 20, color: Colors.white),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.add, color: Colors.white),
+                      onPressed: () {
+                        if (score < 7) {
+                          setState(() {
+                            score += 0.5;
+                          });
+                        }
+                      },
                     ),
                   ],
                 ),
+              ],
+            ),
+          ),
+          ElevatedButton(
+            style: ButtonStyle(
+              backgroundColor:
+                  MaterialStateProperty.all<Color>(ColorPalette.principal),
+              elevation: MaterialStateProperty.all<double>(0),
+              overlayColor: MaterialStateProperty.all<Color>(
+                Colors.transparent,
               ),
-              ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all<Color>(ColorPalette.principal),
-                  elevation: MaterialStateProperty.all<double>(0),
-                  overlayColor: MaterialStateProperty.all<Color>(
-                    Colors.transparent,
-                  ),
-                ),
-                onPressed: addStroke,
-                child: const Text("Agregar Golpe"),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-            ],
+            ),
+            onPressed: addStroke,
+            child: const Text("Agregar Golpe"),
+          ),
+          const SizedBox(
+            height: 10,
           ),
           if (strokes.isNotEmpty)
             const Text(
@@ -526,30 +532,64 @@ class _PadelScoreWidgetState extends State<PadelScoreWidget> {
           const SizedBox(
             height: 10,
           ),
-          for (var stroke in strokes)
-            Container(
-              color: Colors.red,
-              height: 60,
-              width: 300,
-              child: Stack(
-                children: [
-                  Text(
-                    '${stroke.stroke}: ${stroke.score}',
-                    style: const TextStyle(fontSize: 20, color: Colors.white),
-                  ),
-                  Positioned(
-                    right: 5,
-                    child: IconButton(
-                      icon: const Icon(Icons.delete, color: Colors.white),
-                      onPressed: () {
-                        print("index: ${stroke.hashCode} ");
-                        // strokes.removeAt(stroke.hashCode);
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
+          SizedBox(
+            height: strokes.length * 75,
+            child: ListView.separated(
+                itemCount: strokes.length,
+                physics: const ClampingScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return GestureDetector(
+                      onTap: () {},
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 8.0, right: 8),
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment(0, 1),
+                              colors: <Color>[
+                                Color.fromARGB(96, 255, 153, 0),
+                                Color.fromARGB(46, 230, 48, 48),
+                              ],
+                              tileMode: TileMode.mirror,
+                            ),
+                            color: Colors.green,
+                            borderRadius: BorderRadius.all(Radius.circular(20)),
+                          ),
+                          height: 60,
+                          width: 350,
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              Text(
+                                '${strokes[index].stroke}: ${strokes[index].score}',
+                                style: const TextStyle(
+                                    fontSize: 20, color: Colors.white),
+                              ),
+                              Positioned(
+                                right: 5,
+                                child: IconButton(
+                                  icon: const Icon(Icons.delete,
+                                      color: Colors.white),
+                                  onPressed: () {
+                                    print("index: ${strokes[index].hashCode} ");
+                                    strokes.removeAt(index);
+                                    widget.onSelectDrive(strokes);
+                                    setState(() {});
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ));
+                },
+                separatorBuilder: (context, index) {
+                  return const SizedBox(
+                    height: 10,
+                  );
+                }),
+          ),
         ],
       ),
     );
@@ -564,18 +604,21 @@ class PadelStroke {
 }
 
 class SelectPlayerWidget extends StatefulWidget {
-  const SelectPlayerWidget({super.key});
-
+  const SelectPlayerWidget(
+      {super.key, required this.onSelectDrive, required this.onSelectPLayer});
+  final ValueChanged<List<PadelStroke>> onSelectDrive;
+  final ValueChanged<String> onSelectPLayer;
   @override
   State<SelectPlayerWidget> createState() => _SelectPlayerWidgetState();
 }
 
 class _SelectPlayerWidgetState extends State<SelectPlayerWidget> {
-  String _handPreference = 'Alumnos';
+  String _handPreference = '';
   bool selectUser = false;
   void selectPlayer(contact) {
     _handPreference = contact;
     selectUser = true;
+    widget.onSelectPLayer(_handPreference);
     setState(
       () {},
     );
@@ -595,7 +638,7 @@ class _SelectPlayerWidgetState extends State<SelectPlayerWidget> {
             ),
           ),
           onPressed: () async {
-            var a = await Navigator.push(
+            var player = await Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => FilterContactListScreen(
@@ -603,6 +646,9 @@ class _SelectPlayerWidgetState extends State<SelectPlayerWidget> {
                 ),
               ),
             );
+            if (player != null) {
+              _handPreference = player;
+            }
           },
           child: const Text('Seleccionar jugador'),
         ),
@@ -619,6 +665,9 @@ class _SelectPlayerWidgetState extends State<SelectPlayerWidget> {
         ),
         PadelScoreWidget(
           isSelectPlayer: selectUser,
+          onSelectDrive: (List<PadelStroke> value) {
+            widget.onSelectDrive(value);
+          },
         ),
       ],
     );

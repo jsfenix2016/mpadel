@@ -1,4 +1,4 @@
-import 'package:Klasspadel/Models/videobd.dart';
+import 'package:Klasspadel/ModelsBD/videobd.dart';
 import 'package:flutter/material.dart';
 
 class VideoProcessThumbnail extends StatefulWidget {

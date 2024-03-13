@@ -1,4 +1,4 @@
-import 'package:Klasspadel/Page/AddUser/AddUser/add_user_page.dart';
+import 'package:Klasspadel/Page/AddUser/Page/add_user_page.dart';
 import 'package:Klasspadel/Page/Plan/PageView/sub_coach.dart';
 import 'package:Klasspadel/Page/Recoder/PageView/recoder_page.dart';
 import 'package:Klasspadel/Page/Search/filter_screen.dart';

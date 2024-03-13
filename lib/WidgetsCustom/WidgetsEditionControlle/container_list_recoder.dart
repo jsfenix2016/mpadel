@@ -113,10 +113,10 @@ class _ContainerListRecoderState extends State<ContainerListRecoder> {
                         children: [
                           Padding(
                             padding: const EdgeInsets.only(
-                                left: 2.0, right: 2, top: 4),
+                                left: 3.0, right: 5, top: 4),
                             child: Container(
-                              height: 60,
-                              width: size.width - widget.left - 16,
+                              height: 70,
+                              width: size.width - widget.left - 20,
                               decoration: BoxDecoration(
                                 borderRadius: const BorderRadius.all(
                                   Radius.circular(20.0),
@@ -124,7 +124,7 @@ class _ContainerListRecoderState extends State<ContainerListRecoder> {
                                 color: Colors.black.withAlpha(80),
                               ),
                               child: Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: const EdgeInsets.all(4.0),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.max,
                                   mainAxisAlignment:
@@ -141,7 +141,7 @@ class _ContainerListRecoderState extends State<ContainerListRecoder> {
                                     IconButton(
                                         icon: Container(
                                           height: 40.0,
-                                          width: 60,
+                                          width: 40,
                                           decoration: BoxDecoration(
                                             color: Colors.white.withAlpha(70),
                                             border: Border.all(
@@ -152,6 +152,7 @@ class _ContainerListRecoderState extends State<ContainerListRecoder> {
                                                     Radius.circular(20)),
                                           ),
                                           child: Icon(
+                                            size: 20,
                                             !isPlay && indexSelect == index
                                                 ? Icons.play_arrow
                                                 : Icons.stop,

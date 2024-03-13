@@ -9,6 +9,7 @@ class EditButtonExpand extends StatefulWidget {
   final ValueChanged<bool> onZoom;
   final ValueChanged<bool> onPreview;
   final ValueChanged<bool> onList;
+  final ValueChanged<bool> onPublish;
   const EditButtonExpand(
       {Key? key,
       required this.onChanged,
@@ -16,7 +17,8 @@ class EditButtonExpand extends StatefulWidget {
       required this.onUndo,
       required this.onZoom,
       required this.onPreview,
-      required this.onList})
+      required this.onList,
+      required this.onPublish})
       : super(key: key);
 
   static PainterController newController() {
@@ -84,6 +86,10 @@ class _EditButtonExpandState extends State<EditButtonExpand>
     widget.onList(true);
   }
 
+  void publish() {
+    widget.onPublish(true);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -97,23 +103,28 @@ class _EditButtonExpandState extends State<EditButtonExpand>
             border: Border.all(color: const Color.fromRGBO(219, 177, 42, 1)),
             borderRadius: const BorderRadius.all(Radius.circular(20)),
           ),
-          width: 50, // Anima el ancho
-          height: isExpanded ? 390.0 : 50.0, // Anima el alto
+          width: 55, // Anima el ancho
+          height: isExpanded ? 450.0 : 50.0, // Anima el alto
           child: Stack(
+            alignment: Alignment.center,
             children: [
               Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       IconButton(
                           icon: isExpanded
                               ? const Icon(
                                   Icons.close,
+                                  color: Colors.black,
                                 )
                               : const Icon(
                                   Icons.arrow_drop_down,
+                                  color: Colors.black,
                                 ),
                           tooltip: 'Expanded',
                           onPressed: expandedController),
@@ -127,19 +138,26 @@ class _EditButtonExpandState extends State<EditButtonExpand>
                             IconButton(
                                 icon: const Icon(
                                   Icons.undo,
+                                  color: Colors.black,
                                 ),
                                 tooltip: 'Atras',
                                 onPressed: () async {
                                   widget.onUndo(true);
                                 }),
                             IconButton(
-                                icon: const Icon(Icons.delete),
+                                icon: const Icon(
+                                  Icons.delete,
+                                  color: Colors.black,
+                                ),
                                 tooltip: 'Borrar todo',
                                 onPressed: () {
                                   controller.clear();
                                 }),
                             IconButton(
-                              icon: const Icon(Icons.preview),
+                              icon: const Icon(
+                                Icons.preview,
+                                color: Colors.black,
+                              ),
                               tooltip: 'Vista previa',
                               onPressed: previewBtn,
                             ),
@@ -168,6 +186,28 @@ class _EditButtonExpandState extends State<EditButtonExpand>
                               ),
                               tooltip: 'Lista',
                               onPressed: showList,
+                            ),
+                            Container(
+                              height: 1,
+                              child: Container(
+                                height: 1,
+                                color: Colors.white,
+                              ),
+                            ),
+                            Container(
+                              height: 9,
+                              child: Container(
+                                height: 1,
+                                color: Colors.transparent,
+                              ),
+                            ),
+                            IconButton(
+                              icon: const Icon(
+                                Icons.publish,
+                                color: Colors.black,
+                              ),
+                              tooltip: 'Publicar',
+                              onPressed: publish,
                             ),
                           ],
                         ),
