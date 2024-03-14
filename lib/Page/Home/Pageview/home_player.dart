@@ -266,6 +266,7 @@ class _HomePlayerPageState extends State<HomePlayerPage> {
                           ),
                         );
                       }
+                      return const SizedBox.shrink();
                     },
                     separatorBuilder: (context, index) {
                       return const SizedBox(

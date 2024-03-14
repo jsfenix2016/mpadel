@@ -392,7 +392,7 @@ Future<void> main() async {
   initApp = _prefs.onBoarding == true ? '/' : 'loginScreen';
   runApp(
     GetMaterialApp(
-      home: LoginScreen(),
+      home: const LoginScreen(),
       translations: Languages(), // your translations
       locale: const Locale(
           'es', 'ES'), // translations will be displayed in that locale
